@@ -12,7 +12,7 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     // It contain property and function
-    addTodo: (state, action) => { // addTodo is reducer
+    addTodo: (state, action) => { // addTodo is action
       const todo = {
         id: nanoid(),
         text: action.payload,

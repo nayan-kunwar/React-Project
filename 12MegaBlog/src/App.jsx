@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// We have to see that when app is loading the user is logged in or not.
+//We can see this from our state
+//if logged in then we show something , if not then show ohter thing.
+
+//Jab bhi netowrk yaa db se request krte hai toh ek loading state bnanai chahiye taaki conditonal rendering kr sake, that if loading true then show loading icon and
+// if loading is false then show data
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { login, logout } from './store/authSlice'
+import authService from './appwrite/auth' //Those thing will be imported which had been exported 
 import './App.css'
+import { Footer, Header } from './components'
+import { Outlet } from 'react-router-dom'
 
 function App() {
-  const [count, setCount] = useState(0)
+  //Use loa
+  const [loading, setLoading] = useState(true); //loading is true because useEffect is doing something(making async req means loading state need to true, when useEffect done doing then we set loading false means useEffect not makeking req) on app mount
+  const dispatch = useDispatch();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  useEffect(()=>{
+    authService.getCurrentUser()
+      .then((userData)=> {
+        if(userData){ //If userData is available means there is user logged in then status must be true.
+          dispatch(login({userData}));
+        } else { 
+          //If userData is null means there is no current user.
+          dispatch(logout()); 
+        }
+      })
+      //.catch(() => console.log("----then not excuted"))
+      .finally(()=>{setLoading(false)})
+  }, []);
+
+  return !loading ? (
+    <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
+      <div className='w-full block'>
+        <Header />
+        <main>
+        TODO: <Outlet />
+        </main>
+        <Footer />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  ) : null
 }
 
 export default App
