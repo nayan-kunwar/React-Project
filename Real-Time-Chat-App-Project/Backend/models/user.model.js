@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+//Define Schema
+//Data will be stored in databases like below mentioned structure.
 const userSchema = new mongoose.Schema({
   fullName: {
     type: String,
@@ -26,7 +28,8 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-//Create model based on above schema
+//Create model based on above schema.
+//Models provide a [structured representation of the data] that will be stored in the database.
 const User = mongoose.model("User", userSchema);
 
 export default User;
