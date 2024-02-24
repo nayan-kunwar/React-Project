@@ -35,3 +35,28 @@ export const sendMessage = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error." });
   }
 };
+
+// Get all messages of a specific user's conversation with another user
+export const getMessages = async (req, res) => {
+  try {
+    const { id: userToChatId } = req.params;
+    const senderId = req.user._id; // Get the id of logged in user from token which is set in cookie.
+
+    // Find the conversation between these two users and populate it with its messages
+    const conversation = await Conversation.findOne({
+      participants: { $all: [senderId, userToChatId] },
+    }).populate("messages"); //Actual messages will be here not reference.
+
+    // console.log("Conversation: ", conversation);
+    // console.log("Messages in Conversation: ", conversation.messages);
+
+    if (!conversation) {
+      return res.status(200).json([]); //Don't put {error: "User not found"} because what if logged in user does not have conversation with receiver.
+    }
+
+    res.status(200).json(conversation.messages);
+  } catch (error) {
+    console.log("Error in getMessages conroller: ", error.message);
+    res.status(500).json({ error: "Internal Server Error." });
+  }
+};
