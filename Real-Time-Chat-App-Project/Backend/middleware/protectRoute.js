@@ -3,13 +3,14 @@ import User from "../models/user.model.js";
 
 const protectRoute = async (req, res, next)=> {
     try {
+        //console.log(`REQ: ${req.method}`);
         const token = req.cookies.jwt;
         if(!token){
             return res.status(401).json({error: "Unathenticated User - No Token Provided"});
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);  //Verify that the token is valid and not expired
-        console.log(`decoded: ${decoded}`);
+        //console.log(`decoded: ${decoded}`);
 
         if(!decoded){
             return res.status(401).json({error: "Unauthorized - Invalid Token"});

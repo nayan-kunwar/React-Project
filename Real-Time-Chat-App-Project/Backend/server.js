@@ -13,10 +13,9 @@ const PORT = process.env.PORT || 5000;
 
 dotenv.config();
 
-
 //Middleware 
-app.use(express.json());
-app.use(cookieParser());
+app.use(express.json()); // Middleware parses the req body which is in JSON string data and makes it available in the [req.body] object. 
+app.use(cookieParser()); // Middleware parses the Cookie header from the incoming request and populates [req.cookies] with an object.
 
 //For Routes: This means that all routes defined in authRoutes will be accessible under the "/api/auth" path.
 app.use("/api/auth", authRoutes); // Contain Authentication Routes.
