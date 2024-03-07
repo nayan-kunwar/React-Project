@@ -13,7 +13,7 @@ const SignUp = () => {
     gender: "",
   });
 
-  const { loading, signup } = useSignup();
+  const { loading, signup } = useSignup(); //Accessing loading, signup from useSignup hook
 
   const handleCheckboxChange = (gender) => {
     setInputs({ ...inputs, gender });
@@ -21,8 +21,8 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputs);
-    await signup(inputs);
+    console.log(`Data input form client signup form: ${inputs}`);
+    await signup(inputs); //Sending data to server.
   };
 
   return (
