@@ -88,9 +88,12 @@ export const login = async (req, res) => {
     );
 
     // Checking if user already exists
+    // In frontend: response.json() = {error: ""}
+    // data = response.json() = {error: ""}
+    // data = {error: ""}
     if (!user || !isPasswordMatch) {
       return res.status(400).json({
-        error: "Authentication failed! Invalid Username or password.",
+        error: "Authentication failed! Invalid Username or password.", //const data = await response.json(); and data.error = "Authentication failed! Invalid Username or password."
       });
     }
 
