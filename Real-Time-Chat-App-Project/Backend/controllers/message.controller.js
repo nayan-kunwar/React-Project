@@ -54,7 +54,7 @@ export const getMessages = async (req, res) => {
       return res.status(200).json([]); //Don't put {error: "User not found"} because what if logged in user does not have conversation with receiver.
     }
 
-    res.status(200).json(conversation.messages);
+    res.status(200).json(conversation.messages); //array of message object | [{}, {}] 
   } catch (error) {
     console.log("Error in getMessages conroller: ", error.message);
     res.status(500).json({ error: "Internal Server Error." });

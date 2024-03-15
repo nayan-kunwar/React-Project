@@ -15,7 +15,7 @@ const useGetConversations = () => {
           throw new Error(data.error);
         }
         //console.log(`conversations from db | data: ${data}`);
-        setConversations(data);
+        setConversations(data); // [{}, {}]
         //console.log(`coversations state: ${conversations}`);
       } catch (error) {
         toast.error(error.message);
