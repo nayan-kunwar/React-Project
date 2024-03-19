@@ -1,10 +1,13 @@
+import { useSocketContext } from "../../context/SocketContext";
 import useConversation from "../../zustand/useConversation";
 
 const Conversation = ({ conversation, lastIdx, emoji }) => {
   const { selectedConversation, setSelectedConversation } = useConversation();
-  console.log(`conversation after map ${conversation}`);
+  //console.log(`conversation after map ${conversation}`);
   const isSelected = selectedConversation?._id === conversation._id;
-  console.dir(selectedConversation);
+  //console.dir(selectedConversation);
+  const { onlineUsers } = useSocketContext();
+  const isOnline = onlineUsers.includes(conversation._id);
   return (
     <>
       <div
@@ -14,7 +17,7 @@ const Conversation = ({ conversation, lastIdx, emoji }) => {
         onClick={() => setSelectedConversation(conversation)}
       >
         {/* setSelectedConversation(conversation)=> set the same clicked conversation on state for fixed bakground when clicked*/}
-        <div className="avatar online">
+        <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-12 rounded-full">
             <img src={conversation.profilePic} alt="user avatar" />
           </div>

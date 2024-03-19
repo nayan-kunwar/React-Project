@@ -1,5 +1,6 @@
 import Conversation from "../models/conversation.mondel.js";
 import Message from "../models/message.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
   try {
@@ -30,6 +31,14 @@ export const sendMessage = async (req, res) => {
     res.status(201).json(newMessage);
 
     await Promise.all([conversation.save(), newMessage.save()]);
+
+    // SOCKET IO FUNCTIONALITY WILL GO HERE
+		const receiverSocketId = getReceiverSocketId(receiverId);
+		if (receiverSocketId) {
+			// io.to(<socket_id>).emit() used to send events to specific client
+			io.to(receiverSocketId).emit("newMessage", newMessage);
+		}
+
   } catch (error) {
     console.log("Error in sendMessage conroller: ", error.message);
     res.status(500).json({ error: "Internal Server Error." });
