@@ -24,10 +24,10 @@ app.use("/api/auth", authRoutes); // Contain Authentication Routes.
 app.use("/api/messages", messageRoutes); // Contain Messages Routes.
 app.use("/api/users", userRoutes); // Contain Users Routes.
 
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.use(express.static(path.join(__dirname, "/Frontend/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "Frontend", "dist", "index.html"));
 });
 
 server.listen(PORT, () => {
