@@ -13,6 +13,7 @@ const useListenMessages = () => {
       const sound = new Audio(notificationSound);
       sound.play();
       setMessages([...messages, newMessage]);
+      //console.log('Received new message:', newMessage); 
     });
 
     return () => socket?.off("newMessage");

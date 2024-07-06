@@ -12,8 +12,8 @@ export const useAuthContext = () => {
 //AuthContext child will be rencderd in place of {children}
 export const AuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(
-    JSON.parse(localStorage.getItem("user-data")) || null
-  ); //Accessing user data from local storage.  JSON.parse will convert "{}" to {}.
+    JSON.parse(localStorage.getItem("user-data")) || null // authUser = {_id: "6682fc4bc39bf32a2b927c70", fullName: "Aman ", userName: "aman07",…}
+  ); //Accessing user data from local storage.  JSON.parse will convert "{}" to {}. 
   console.log(
     `authUser data from local storeage and converted to json string to object.`
   );

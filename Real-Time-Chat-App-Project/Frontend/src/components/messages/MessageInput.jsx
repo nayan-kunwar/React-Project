@@ -9,7 +9,7 @@ const MessageInput = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!message) return;
-	console.log(`message: ${message}`)
+	  console.log(`message: ${message}`)
     await sendMessage(message);
     setMessage("");
   };

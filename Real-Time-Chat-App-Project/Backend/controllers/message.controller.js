@@ -33,7 +33,7 @@ export const sendMessage = async (req, res) => {
     await Promise.all([conversation.save(), newMessage.save()]);
 
     // SOCKET IO FUNCTIONALITY WILL GO HERE
-		const receiverSocketId = getReceiverSocketId(receiverId);
+		const receiverSocketId = getReceiverSocketId(receiverId); 
 		if (receiverSocketId) {
 			// io.to(<socket_id>).emit() used to send events to specific client
 			io.to(receiverSocketId).emit("newMessage", newMessage);
@@ -48,8 +48,8 @@ export const sendMessage = async (req, res) => {
 // Get all messages of a specific user's conversation with another user
 export const getMessages = async (req, res) => {
   try {
-    const { id: userToChatId } = req.params;
-    const senderId = req.user._id; // Get the id of logged in user from token which is set in cookie.
+    const { id: userToChatId } = req.params; // Get the user to chat from url params
+    const senderId = req.user._id; // Get the id of logged in user from token which is set in cookie. Protect route had set the logged in user
 
     // Find the conversation between these two users and populate it with its messages
     const conversation = await Conversation.findOne({
@@ -63,7 +63,7 @@ export const getMessages = async (req, res) => {
       return res.status(200).json([]); //Don't put {error: "User not found"} because what if logged in user does not have conversation with receiver.
     }
 
-    res.status(200).json(conversation.messages); //array of message object | [{}, {}] 
+    res.status(200).json(conversation.messages); //array of message object || [ { }, { } ] 
   } catch (error) {
     console.log("Error in getMessages conroller: ", error.message);
     res.status(500).json({ error: "Internal Server Error." });

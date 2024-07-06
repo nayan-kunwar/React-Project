@@ -14,15 +14,22 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:5000", {
+      //Header tab | Request URL: http://localhost:5000/socket.io/?userId=6682fc4bc39bf32a2b927c70&EIO=4.....so on
+      //io: A function provided by the Socket.IO client library to establish a connection to the server.
+      //"http://localhost:5000": The URL where the Socket.IO server is running.
+      const socket = io("http://localhost:5000", { 
         query: {
-          userId: authUser._id,
+          userId: authUser._id, //Send logged in user id to server in query parameter of request url
         },
-      });
-      setSocket(socket);
-      socket.on("getOnlineUsers", (users) => {
-        console.log(`users|online: ${users}`);
-        setonlineUsers(users); //users is an array of keys [] which contain userid as key of online users form mongodb, and value will be socket id
+      }); 
+      console.log("connection object: ",socket)
+      //socket: The instance of the Socket.IO client connection that was created.
+      //socket represents an active connection object that allows real-time communication between the client and the server.
+      setSocket(socket); // connection object or connected client
+      socket.on("getOnlineUsers", (users) => { // users =  [ '6682fc86c39bf32a2b927c7b', '6682fc4bc39bf32a2b927c70' ]
+        //console.log(`users|online: ${users}`);
+        setonlineUsers(users); //users is an array of keys [] which contain userid(which is key set in backend) of online users form mongodb
+        //console.log(onlineUsers)
       });
       return () => socket.close();
     } else {
